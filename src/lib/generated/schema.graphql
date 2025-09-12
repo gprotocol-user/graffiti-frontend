@@ -1,0 +1,3920 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+"""
+whether this query should be cached (Hasura Cloud only)
+"""
+directive @cached(
+  """
+  measured in seconds
+  """
+  ttl: Int! = 60
+
+  """
+  refresh the cache entry
+  """
+  refresh: Boolean! = false
+) on QUERY
+
+"""
+Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
+"""
+input Int_comparison_exp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _is_null: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
+"""
+Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+
+  """
+  does the column match the given case-insensitive pattern
+  """
+  _ilike: String
+  _in: [String!]
+
+  """
+  does the column match the given POSIX regular expression, case insensitive
+  """
+  _iregex: String
+  _is_null: Boolean
+
+  """
+  does the column match the given pattern
+  """
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+
+  """
+  does the column NOT match the given case-insensitive pattern
+  """
+  _nilike: String
+  _nin: [String!]
+
+  """
+  does the column NOT match the given POSIX regular expression, case insensitive
+  """
+  _niregex: String
+
+  """
+  does the column NOT match the given pattern
+  """
+  _nlike: String
+
+  """
+  does the column NOT match the given POSIX regular expression, case sensitive
+  """
+  _nregex: String
+
+  """
+  does the column NOT match the given SQL regular expression
+  """
+  _nsimilar: String
+
+  """
+  does the column match the given POSIX regular expression, case sensitive
+  """
+  _regex: String
+
+  """
+  does the column match the given SQL regular expression
+  """
+  _similar: String
+}
+
+scalar bigint
+
+"""
+Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'.
+"""
+input bigint_comparison_exp {
+  _eq: bigint
+  _gt: bigint
+  _gte: bigint
+  _in: [bigint!]
+  _is_null: Boolean
+  _lt: bigint
+  _lte: bigint
+  _neq: bigint
+  _nin: [bigint!]
+}
+
+input cache_id_graffiti_args {
+  cache_id: String
+}
+
+"""
+ordering argument of a cursor
+"""
+enum cursor_ordering {
+  """
+  ascending ordering of the cursor
+  """
+  ASC
+
+  """
+  descending ordering of the cursor
+  """
+  DESC
+}
+
+input deposittopost_args {
+  owner: String
+  postindex: Int
+  sender: String
+  value: Int
+}
+
+scalar float8
+
+"""
+Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'.
+"""
+input float8_comparison_exp {
+  _eq: float8
+  _gt: float8
+  _gte: float8
+  _in: [float8!]
+  _is_null: Boolean
+  _lt: float8
+  _lte: float8
+  _neq: float8
+  _nin: [float8!]
+}
+
+"""
+columns and relationships of "graffiti"
+"""
+type graffiti {
+  address: String!
+
+  """
+  A computed field, executes function "cache_id_col_helper4"
+  """
+  cache_id(
+    """
+    input parameters for computed field "cache_id" defined on table "graffiti"
+    """
+    args: cache_id_graffiti_args!
+  ): String
+  created_at: timestamptz
+
+  """
+  An object relationship
+  """
+  graffitiToWalls: walls
+  id: Int!
+  locked_funds: Int!
+  message: String!
+  postIndex: Int!
+  timestamp: Int!
+  updated_at: timestamptz
+  updated_timestamp: Int!
+  wallIndex: bigint!
+}
+
+"""
+aggregated selection of "graffiti"
+"""
+type graffiti_aggregate {
+  aggregate: graffiti_aggregate_fields
+  nodes: [graffiti!]!
+}
+
+"""
+aggregate fields of "graffiti"
+"""
+type graffiti_aggregate_fields {
+  avg: graffiti_avg_fields
+  count(columns: [graffiti_select_column!], distinct: Boolean): Int!
+  max: graffiti_max_fields
+  min: graffiti_min_fields
+  stddev: graffiti_stddev_fields
+  stddev_pop: graffiti_stddev_pop_fields
+  stddev_samp: graffiti_stddev_samp_fields
+  sum: graffiti_sum_fields
+  var_pop: graffiti_var_pop_fields
+  var_samp: graffiti_var_samp_fields
+  variance: graffiti_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type graffiti_avg_fields {
+  id: Float
+  locked_funds: Float
+  postIndex: Float
+  timestamp: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+Boolean expression to filter rows from the table "graffiti". All fields are combined with a logical 'AND'.
+"""
+input graffiti_bool_exp {
+  _and: [graffiti_bool_exp!]
+  _not: graffiti_bool_exp
+  _or: [graffiti_bool_exp!]
+  address: String_comparison_exp
+  created_at: timestamptz_comparison_exp
+  graffitiToWalls: walls_bool_exp
+  id: Int_comparison_exp
+  locked_funds: Int_comparison_exp
+  message: String_comparison_exp
+  postIndex: Int_comparison_exp
+  timestamp: Int_comparison_exp
+  updated_at: timestamptz_comparison_exp
+  updated_timestamp: Int_comparison_exp
+  wallIndex: bigint_comparison_exp
+}
+
+"""
+graffiti_cache_helperNative Query Arguments
+"""
+input graffiti_cache_helper_arguments {
+  """
+  """
+  cache_id: String
+}
+
+type graffiti_cache_helper_model {
+  cache_id: String!
+}
+
+"""
+Boolean expression to filter rows from the logical model for "graffiti_cache_helper_model". All fields are combined with a logical 'AND'.
+"""
+input graffiti_cache_helper_model_bool_exp_bool_exp {
+  _and: [graffiti_cache_helper_model_bool_exp_bool_exp!]
+  _not: graffiti_cache_helper_model_bool_exp_bool_exp
+  _or: [graffiti_cache_helper_model_bool_exp_bool_exp!]
+  cache_id: String_comparison_exp
+}
+
+enum graffiti_cache_helper_model_enum_name {
+  """
+  column name
+  """
+  cache_id
+}
+
+"""
+Ordering options when selecting data from "graffiti_cache_helper_model".
+"""
+input graffiti_cache_helper_model_order_by {
+  cache_id: order_by
+}
+
+"""
+unique or primary key constraints on table "graffiti"
+"""
+enum graffiti_constraint {
+  """
+  unique or primary key constraint on columns "unindice"
+  """
+  graffiti_elindice_key
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  graffiti_id_key
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  graffiti_pkey
+}
+
+"""
+columns and relationships of "graffiti_featured"
+"""
+type graffiti_featured {
+  address: String
+  created_at: timestamptz
+  id: Int
+  locked_funds: Int
+  message: String
+  randomized_score: float8
+  timestamp: Int
+  unindice: Int
+  updated_at: timestamptz
+  updated_timestamp: Int
+  wallIndex: bigint
+}
+
+"""
+aggregated selection of "graffiti_featured"
+"""
+type graffiti_featured_aggregate {
+  aggregate: graffiti_featured_aggregate_fields
+  nodes: [graffiti_featured!]!
+}
+
+"""
+aggregate fields of "graffiti_featured"
+"""
+type graffiti_featured_aggregate_fields {
+  avg: graffiti_featured_avg_fields
+  count(columns: [graffiti_featured_select_column!], distinct: Boolean): Int!
+  max: graffiti_featured_max_fields
+  min: graffiti_featured_min_fields
+  stddev: graffiti_featured_stddev_fields
+  stddev_pop: graffiti_featured_stddev_pop_fields
+  stddev_samp: graffiti_featured_stddev_samp_fields
+  sum: graffiti_featured_sum_fields
+  var_pop: graffiti_featured_var_pop_fields
+  var_samp: graffiti_featured_var_samp_fields
+  variance: graffiti_featured_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type graffiti_featured_avg_fields {
+  id: Float
+  locked_funds: Float
+  randomized_score: Float
+  timestamp: Float
+  unindice: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+Boolean expression to filter rows from the table "graffiti_featured". All fields are combined with a logical 'AND'.
+"""
+input graffiti_featured_bool_exp {
+  _and: [graffiti_featured_bool_exp!]
+  _not: graffiti_featured_bool_exp
+  _or: [graffiti_featured_bool_exp!]
+  address: String_comparison_exp
+  created_at: timestamptz_comparison_exp
+  id: Int_comparison_exp
+  locked_funds: Int_comparison_exp
+  message: String_comparison_exp
+  randomized_score: float8_comparison_exp
+  timestamp: Int_comparison_exp
+  unindice: Int_comparison_exp
+  updated_at: timestamptz_comparison_exp
+  updated_timestamp: Int_comparison_exp
+  wallIndex: bigint_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type graffiti_featured_max_fields {
+  address: String
+  created_at: timestamptz
+  id: Int
+  locked_funds: Int
+  message: String
+  randomized_score: float8
+  timestamp: Int
+  unindice: Int
+  updated_at: timestamptz
+  updated_timestamp: Int
+  wallIndex: bigint
+}
+
+"""
+aggregate min on columns
+"""
+type graffiti_featured_min_fields {
+  address: String
+  created_at: timestamptz
+  id: Int
+  locked_funds: Int
+  message: String
+  randomized_score: float8
+  timestamp: Int
+  unindice: Int
+  updated_at: timestamptz
+  updated_timestamp: Int
+  wallIndex: bigint
+}
+
+"""
+Ordering options when selecting data from "graffiti_featured".
+"""
+input graffiti_featured_order_by {
+  address: order_by
+  created_at: order_by
+  id: order_by
+  locked_funds: order_by
+  message: order_by
+  randomized_score: order_by
+  timestamp: order_by
+  unindice: order_by
+  updated_at: order_by
+  updated_timestamp: order_by
+  wallIndex: order_by
+}
+
+"""
+select columns of table "graffiti_featured"
+"""
+enum graffiti_featured_select_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  locked_funds
+
+  """
+  column name
+  """
+  message
+
+  """
+  column name
+  """
+  randomized_score
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  unindice
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  updated_timestamp
+
+  """
+  column name
+  """
+  wallIndex
+}
+
+"""
+aggregate stddev on columns
+"""
+type graffiti_featured_stddev_fields {
+  id: Float
+  locked_funds: Float
+  randomized_score: Float
+  timestamp: Float
+  unindice: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type graffiti_featured_stddev_pop_fields {
+  id: Float
+  locked_funds: Float
+  randomized_score: Float
+  timestamp: Float
+  unindice: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type graffiti_featured_stddev_samp_fields {
+  id: Float
+  locked_funds: Float
+  randomized_score: Float
+  timestamp: Float
+  unindice: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+Streaming cursor of the table "graffiti_featured"
+"""
+input graffiti_featured_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: graffiti_featured_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input graffiti_featured_stream_cursor_value_input {
+  address: String
+  created_at: timestamptz
+  id: Int
+  locked_funds: Int
+  message: String
+  randomized_score: float8
+  timestamp: Int
+  unindice: Int
+  updated_at: timestamptz
+  updated_timestamp: Int
+  wallIndex: bigint
+}
+
+"""
+aggregate sum on columns
+"""
+type graffiti_featured_sum_fields {
+  id: Int
+  locked_funds: Int
+  randomized_score: float8
+  timestamp: Int
+  unindice: Int
+  updated_timestamp: Int
+  wallIndex: bigint
+}
+
+"""
+aggregate var_pop on columns
+"""
+type graffiti_featured_var_pop_fields {
+  id: Float
+  locked_funds: Float
+  randomized_score: Float
+  timestamp: Float
+  unindice: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type graffiti_featured_var_samp_fields {
+  id: Float
+  locked_funds: Float
+  randomized_score: Float
+  timestamp: Float
+  unindice: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type graffiti_featured_variance_fields {
+  id: Float
+  locked_funds: Float
+  randomized_score: Float
+  timestamp: Float
+  unindice: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+columns and relationships of "graffiti_featured_with_walls"
+"""
+type graffiti_featured_with_walls {
+  address: String
+  created_at: timestamptz
+  id: Int
+  locked_funds: Int
+  message: String
+  randomized_score: float8
+  timestamp: Int
+  unindice: Int
+  updated_at: timestamptz
+  updated_timestamp: Int
+  wallIndex: bigint
+  wallName: String
+}
+
+"""
+aggregated selection of "graffiti_featured_with_walls"
+"""
+type graffiti_featured_with_walls_aggregate {
+  aggregate: graffiti_featured_with_walls_aggregate_fields
+  nodes: [graffiti_featured_with_walls!]!
+}
+
+"""
+aggregate fields of "graffiti_featured_with_walls"
+"""
+type graffiti_featured_with_walls_aggregate_fields {
+  avg: graffiti_featured_with_walls_avg_fields
+  count(
+    columns: [graffiti_featured_with_walls_select_column!]
+    distinct: Boolean
+  ): Int!
+  max: graffiti_featured_with_walls_max_fields
+  min: graffiti_featured_with_walls_min_fields
+  stddev: graffiti_featured_with_walls_stddev_fields
+  stddev_pop: graffiti_featured_with_walls_stddev_pop_fields
+  stddev_samp: graffiti_featured_with_walls_stddev_samp_fields
+  sum: graffiti_featured_with_walls_sum_fields
+  var_pop: graffiti_featured_with_walls_var_pop_fields
+  var_samp: graffiti_featured_with_walls_var_samp_fields
+  variance: graffiti_featured_with_walls_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type graffiti_featured_with_walls_avg_fields {
+  id: Float
+  locked_funds: Float
+  randomized_score: Float
+  timestamp: Float
+  unindice: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+Boolean expression to filter rows from the table "graffiti_featured_with_walls". All fields are combined with a logical 'AND'.
+"""
+input graffiti_featured_with_walls_bool_exp {
+  _and: [graffiti_featured_with_walls_bool_exp!]
+  _not: graffiti_featured_with_walls_bool_exp
+  _or: [graffiti_featured_with_walls_bool_exp!]
+  address: String_comparison_exp
+  created_at: timestamptz_comparison_exp
+  id: Int_comparison_exp
+  locked_funds: Int_comparison_exp
+  message: String_comparison_exp
+  randomized_score: float8_comparison_exp
+  timestamp: Int_comparison_exp
+  unindice: Int_comparison_exp
+  updated_at: timestamptz_comparison_exp
+  updated_timestamp: Int_comparison_exp
+  wallIndex: bigint_comparison_exp
+  wallName: String_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type graffiti_featured_with_walls_max_fields {
+  address: String
+  created_at: timestamptz
+  id: Int
+  locked_funds: Int
+  message: String
+  randomized_score: float8
+  timestamp: Int
+  unindice: Int
+  updated_at: timestamptz
+  updated_timestamp: Int
+  wallIndex: bigint
+  wallName: String
+}
+
+"""
+aggregate min on columns
+"""
+type graffiti_featured_with_walls_min_fields {
+  address: String
+  created_at: timestamptz
+  id: Int
+  locked_funds: Int
+  message: String
+  randomized_score: float8
+  timestamp: Int
+  unindice: Int
+  updated_at: timestamptz
+  updated_timestamp: Int
+  wallIndex: bigint
+  wallName: String
+}
+
+"""
+Ordering options when selecting data from "graffiti_featured_with_walls".
+"""
+input graffiti_featured_with_walls_order_by {
+  address: order_by
+  created_at: order_by
+  id: order_by
+  locked_funds: order_by
+  message: order_by
+  randomized_score: order_by
+  timestamp: order_by
+  unindice: order_by
+  updated_at: order_by
+  updated_timestamp: order_by
+  wallIndex: order_by
+  wallName: order_by
+}
+
+"""
+select columns of table "graffiti_featured_with_walls"
+"""
+enum graffiti_featured_with_walls_select_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  locked_funds
+
+  """
+  column name
+  """
+  message
+
+  """
+  column name
+  """
+  randomized_score
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  unindice
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  updated_timestamp
+
+  """
+  column name
+  """
+  wallIndex
+
+  """
+  column name
+  """
+  wallName
+}
+
+"""
+aggregate stddev on columns
+"""
+type graffiti_featured_with_walls_stddev_fields {
+  id: Float
+  locked_funds: Float
+  randomized_score: Float
+  timestamp: Float
+  unindice: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type graffiti_featured_with_walls_stddev_pop_fields {
+  id: Float
+  locked_funds: Float
+  randomized_score: Float
+  timestamp: Float
+  unindice: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type graffiti_featured_with_walls_stddev_samp_fields {
+  id: Float
+  locked_funds: Float
+  randomized_score: Float
+  timestamp: Float
+  unindice: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+Streaming cursor of the table "graffiti_featured_with_walls"
+"""
+input graffiti_featured_with_walls_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: graffiti_featured_with_walls_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input graffiti_featured_with_walls_stream_cursor_value_input {
+  address: String
+  created_at: timestamptz
+  id: Int
+  locked_funds: Int
+  message: String
+  randomized_score: float8
+  timestamp: Int
+  unindice: Int
+  updated_at: timestamptz
+  updated_timestamp: Int
+  wallIndex: bigint
+  wallName: String
+}
+
+"""
+aggregate sum on columns
+"""
+type graffiti_featured_with_walls_sum_fields {
+  id: Int
+  locked_funds: Int
+  randomized_score: float8
+  timestamp: Int
+  unindice: Int
+  updated_timestamp: Int
+  wallIndex: bigint
+}
+
+"""
+aggregate var_pop on columns
+"""
+type graffiti_featured_with_walls_var_pop_fields {
+  id: Float
+  locked_funds: Float
+  randomized_score: Float
+  timestamp: Float
+  unindice: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type graffiti_featured_with_walls_var_samp_fields {
+  id: Float
+  locked_funds: Float
+  randomized_score: Float
+  timestamp: Float
+  unindice: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type graffiti_featured_with_walls_variance_fields {
+  id: Float
+  locked_funds: Float
+  randomized_score: Float
+  timestamp: Float
+  unindice: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+input type for incrementing numeric columns in table "graffiti"
+"""
+input graffiti_inc_input {
+  id: Int
+  locked_funds: Int
+  postIndex: Int
+  timestamp: Int
+  updated_timestamp: Int
+  wallIndex: bigint
+}
+
+"""
+input type for inserting data into table "graffiti"
+"""
+input graffiti_insert_input {
+  address: String
+  created_at: timestamptz
+  graffitiToWalls: walls_obj_rel_insert_input
+  id: Int
+  locked_funds: Int
+  message: String
+  postIndex: Int
+  timestamp: Int
+  updated_at: timestamptz
+  updated_timestamp: Int
+  wallIndex: bigint
+}
+
+"""
+columns and relationships of "graffiti_leaderboard"
+"""
+type graffiti_leaderboard {
+  address: String
+  graffiti_count: bigint
+  max_created_at: timestamptz
+  min_created_at: timestamptz
+  sum_locked_funds: bigint
+}
+
+"""
+aggregated selection of "graffiti_leaderboard"
+"""
+type graffiti_leaderboard_aggregate {
+  aggregate: graffiti_leaderboard_aggregate_fields
+  nodes: [graffiti_leaderboard!]!
+}
+
+"""
+aggregate fields of "graffiti_leaderboard"
+"""
+type graffiti_leaderboard_aggregate_fields {
+  avg: graffiti_leaderboard_avg_fields
+  count(columns: [graffiti_leaderboard_select_column!], distinct: Boolean): Int!
+  max: graffiti_leaderboard_max_fields
+  min: graffiti_leaderboard_min_fields
+  stddev: graffiti_leaderboard_stddev_fields
+  stddev_pop: graffiti_leaderboard_stddev_pop_fields
+  stddev_samp: graffiti_leaderboard_stddev_samp_fields
+  sum: graffiti_leaderboard_sum_fields
+  var_pop: graffiti_leaderboard_var_pop_fields
+  var_samp: graffiti_leaderboard_var_samp_fields
+  variance: graffiti_leaderboard_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type graffiti_leaderboard_avg_fields {
+  graffiti_count: Float
+  sum_locked_funds: Float
+}
+
+"""
+Boolean expression to filter rows from the table "graffiti_leaderboard". All fields are combined with a logical 'AND'.
+"""
+input graffiti_leaderboard_bool_exp {
+  _and: [graffiti_leaderboard_bool_exp!]
+  _not: graffiti_leaderboard_bool_exp
+  _or: [graffiti_leaderboard_bool_exp!]
+  address: String_comparison_exp
+  graffiti_count: bigint_comparison_exp
+  max_created_at: timestamptz_comparison_exp
+  min_created_at: timestamptz_comparison_exp
+  sum_locked_funds: bigint_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type graffiti_leaderboard_max_fields {
+  address: String
+  graffiti_count: bigint
+  max_created_at: timestamptz
+  min_created_at: timestamptz
+  sum_locked_funds: bigint
+}
+
+"""
+aggregate min on columns
+"""
+type graffiti_leaderboard_min_fields {
+  address: String
+  graffiti_count: bigint
+  max_created_at: timestamptz
+  min_created_at: timestamptz
+  sum_locked_funds: bigint
+}
+
+"""
+Ordering options when selecting data from "graffiti_leaderboard".
+"""
+input graffiti_leaderboard_order_by {
+  address: order_by
+  graffiti_count: order_by
+  max_created_at: order_by
+  min_created_at: order_by
+  sum_locked_funds: order_by
+}
+
+"""
+select columns of table "graffiti_leaderboard"
+"""
+enum graffiti_leaderboard_select_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  graffiti_count
+
+  """
+  column name
+  """
+  max_created_at
+
+  """
+  column name
+  """
+  min_created_at
+
+  """
+  column name
+  """
+  sum_locked_funds
+}
+
+"""
+aggregate stddev on columns
+"""
+type graffiti_leaderboard_stddev_fields {
+  graffiti_count: Float
+  sum_locked_funds: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type graffiti_leaderboard_stddev_pop_fields {
+  graffiti_count: Float
+  sum_locked_funds: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type graffiti_leaderboard_stddev_samp_fields {
+  graffiti_count: Float
+  sum_locked_funds: Float
+}
+
+"""
+Streaming cursor of the table "graffiti_leaderboard"
+"""
+input graffiti_leaderboard_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: graffiti_leaderboard_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input graffiti_leaderboard_stream_cursor_value_input {
+  address: String
+  graffiti_count: bigint
+  max_created_at: timestamptz
+  min_created_at: timestamptz
+  sum_locked_funds: bigint
+}
+
+"""
+aggregate sum on columns
+"""
+type graffiti_leaderboard_sum_fields {
+  graffiti_count: bigint
+  sum_locked_funds: bigint
+}
+
+"""
+aggregate var_pop on columns
+"""
+type graffiti_leaderboard_var_pop_fields {
+  graffiti_count: Float
+  sum_locked_funds: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type graffiti_leaderboard_var_samp_fields {
+  graffiti_count: Float
+  sum_locked_funds: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type graffiti_leaderboard_variance_fields {
+  graffiti_count: Float
+  sum_locked_funds: Float
+}
+
+"""
+aggregate max on columns
+"""
+type graffiti_max_fields {
+  address: String
+
+  """
+  A computed field, executes function "cache_id_col_helper4"
+  """
+  cache_id(
+    """
+    input parameters for computed field "cache_id" defined on table "graffiti"
+    """
+    args: cache_id_graffiti_args!
+  ): String
+  created_at: timestamptz
+  id: Int
+  locked_funds: Int
+  message: String
+  postIndex: Int
+  timestamp: Int
+  updated_at: timestamptz
+  updated_timestamp: Int
+  wallIndex: bigint
+}
+
+"""
+aggregate min on columns
+"""
+type graffiti_min_fields {
+  address: String
+
+  """
+  A computed field, executes function "cache_id_col_helper4"
+  """
+  cache_id(
+    """
+    input parameters for computed field "cache_id" defined on table "graffiti"
+    """
+    args: cache_id_graffiti_args!
+  ): String
+  created_at: timestamptz
+  id: Int
+  locked_funds: Int
+  message: String
+  postIndex: Int
+  timestamp: Int
+  updated_at: timestamptz
+  updated_timestamp: Int
+  wallIndex: bigint
+}
+
+"""
+response of any mutation on the table "graffiti"
+"""
+type graffiti_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [graffiti!]!
+}
+
+"""
+on_conflict condition type for table "graffiti"
+"""
+input graffiti_on_conflict {
+  constraint: graffiti_constraint!
+  update_columns: [graffiti_update_column!]! = []
+  where: graffiti_bool_exp
+}
+
+"""
+Ordering options when selecting data from "graffiti".
+"""
+input graffiti_order_by {
+  address: order_by
+  created_at: order_by
+  graffitiToWalls: walls_order_by
+  id: order_by
+  locked_funds: order_by
+  message: order_by
+  postIndex: order_by
+  timestamp: order_by
+  updated_at: order_by
+  updated_timestamp: order_by
+  wallIndex: order_by
+}
+
+"""
+primary key columns input for table: graffiti
+"""
+input graffiti_pk_columns_input {
+  id: Int!
+}
+
+"""
+select columns of table "graffiti"
+"""
+enum graffiti_select_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  locked_funds
+
+  """
+  column name
+  """
+  message
+
+  """
+  column name
+  """
+  postIndex
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  updated_timestamp
+
+  """
+  column name
+  """
+  wallIndex
+}
+
+"""
+input type for updating data in table "graffiti"
+"""
+input graffiti_set_input {
+  address: String
+  created_at: timestamptz
+  id: Int
+  locked_funds: Int
+  message: String
+  postIndex: Int
+  timestamp: Int
+  updated_at: timestamptz
+  updated_timestamp: Int
+  wallIndex: bigint
+}
+
+"""
+aggregate stddev on columns
+"""
+type graffiti_stddev_fields {
+  id: Float
+  locked_funds: Float
+  postIndex: Float
+  timestamp: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type graffiti_stddev_pop_fields {
+  id: Float
+  locked_funds: Float
+  postIndex: Float
+  timestamp: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type graffiti_stddev_samp_fields {
+  id: Float
+  locked_funds: Float
+  postIndex: Float
+  timestamp: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+Streaming cursor of the table "graffiti"
+"""
+input graffiti_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: graffiti_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input graffiti_stream_cursor_value_input {
+  address: String
+  created_at: timestamptz
+  id: Int
+  locked_funds: Int
+  message: String
+  postIndex: Int
+  timestamp: Int
+  updated_at: timestamptz
+  updated_timestamp: Int
+  wallIndex: bigint
+}
+
+"""
+aggregate sum on columns
+"""
+type graffiti_sum_fields {
+  id: Int
+  locked_funds: Int
+  postIndex: Int
+  timestamp: Int
+  updated_timestamp: Int
+  wallIndex: bigint
+}
+
+"""
+update columns of table "graffiti"
+"""
+enum graffiti_update_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  locked_funds
+
+  """
+  column name
+  """
+  message
+
+  """
+  column name
+  """
+  postIndex
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  updated_timestamp
+
+  """
+  column name
+  """
+  wallIndex
+}
+
+input graffiti_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: graffiti_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: graffiti_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: graffiti_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type graffiti_var_pop_fields {
+  id: Float
+  locked_funds: Float
+  postIndex: Float
+  timestamp: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type graffiti_var_samp_fields {
+  id: Float
+  locked_funds: Float
+  postIndex: Float
+  timestamp: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type graffiti_variance_fields {
+  id: Float
+  locked_funds: Float
+  postIndex: Float
+  timestamp: Float
+  updated_timestamp: Float
+  wallIndex: Float
+}
+
+"""
+columns and relationships of "hashtag_trends"
+"""
+type hashtag_trends {
+  hashtag: String
+  hashtag_locked_funds: numeric
+  num_walls: bigint
+}
+
+"""
+aggregated selection of "hashtag_trends"
+"""
+type hashtag_trends_aggregate {
+  aggregate: hashtag_trends_aggregate_fields
+  nodes: [hashtag_trends!]!
+}
+
+"""
+aggregate fields of "hashtag_trends"
+"""
+type hashtag_trends_aggregate_fields {
+  avg: hashtag_trends_avg_fields
+  count(columns: [hashtag_trends_select_column!], distinct: Boolean): Int!
+  max: hashtag_trends_max_fields
+  min: hashtag_trends_min_fields
+  stddev: hashtag_trends_stddev_fields
+  stddev_pop: hashtag_trends_stddev_pop_fields
+  stddev_samp: hashtag_trends_stddev_samp_fields
+  sum: hashtag_trends_sum_fields
+  var_pop: hashtag_trends_var_pop_fields
+  var_samp: hashtag_trends_var_samp_fields
+  variance: hashtag_trends_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type hashtag_trends_avg_fields {
+  hashtag_locked_funds: Float
+  num_walls: Float
+}
+
+"""
+Boolean expression to filter rows from the table "hashtag_trends". All fields are combined with a logical 'AND'.
+"""
+input hashtag_trends_bool_exp {
+  _and: [hashtag_trends_bool_exp!]
+  _not: hashtag_trends_bool_exp
+  _or: [hashtag_trends_bool_exp!]
+  hashtag: String_comparison_exp
+  hashtag_locked_funds: numeric_comparison_exp
+  num_walls: bigint_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type hashtag_trends_max_fields {
+  hashtag: String
+  hashtag_locked_funds: numeric
+  num_walls: bigint
+}
+
+"""
+aggregate min on columns
+"""
+type hashtag_trends_min_fields {
+  hashtag: String
+  hashtag_locked_funds: numeric
+  num_walls: bigint
+}
+
+"""
+Ordering options when selecting data from "hashtag_trends".
+"""
+input hashtag_trends_order_by {
+  hashtag: order_by
+  hashtag_locked_funds: order_by
+  num_walls: order_by
+}
+
+"""
+select columns of table "hashtag_trends"
+"""
+enum hashtag_trends_select_column {
+  """
+  column name
+  """
+  hashtag
+
+  """
+  column name
+  """
+  hashtag_locked_funds
+
+  """
+  column name
+  """
+  num_walls
+}
+
+"""
+aggregate stddev on columns
+"""
+type hashtag_trends_stddev_fields {
+  hashtag_locked_funds: Float
+  num_walls: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type hashtag_trends_stddev_pop_fields {
+  hashtag_locked_funds: Float
+  num_walls: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type hashtag_trends_stddev_samp_fields {
+  hashtag_locked_funds: Float
+  num_walls: Float
+}
+
+"""
+Streaming cursor of the table "hashtag_trends"
+"""
+input hashtag_trends_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: hashtag_trends_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input hashtag_trends_stream_cursor_value_input {
+  hashtag: String
+  hashtag_locked_funds: numeric
+  num_walls: bigint
+}
+
+"""
+aggregate sum on columns
+"""
+type hashtag_trends_sum_fields {
+  hashtag_locked_funds: numeric
+  num_walls: bigint
+}
+
+"""
+aggregate var_pop on columns
+"""
+type hashtag_trends_var_pop_fields {
+  hashtag_locked_funds: Float
+  num_walls: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type hashtag_trends_var_samp_fields {
+  hashtag_locked_funds: Float
+  num_walls: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type hashtag_trends_variance_fields {
+  hashtag_locked_funds: Float
+  num_walls: Float
+}
+
+"""
+mutation root
+"""
+type mutation_root {
+  """
+  delete data from the table: "graffiti"
+  """
+  delete_graffiti(
+    """
+    filter the rows which have to be deleted
+    """
+    where: graffiti_bool_exp!
+  ): graffiti_mutation_response
+
+  """
+  delete single row from the table: "graffiti"
+  """
+  delete_graffiti_by_pk(id: Int!): graffiti
+
+  """
+  delete data from the table: "walls"
+  """
+  delete_walls(
+    """
+    filter the rows which have to be deleted
+    """
+    where: walls_bool_exp!
+  ): walls_mutation_response
+
+  """
+  delete single row from the table: "walls"
+  """
+  delete_walls_by_pk(wallIndex: bigint!): walls
+
+  """
+  execute VOLATILE function "deposittopost" which returns "graffiti"
+  """
+  deposittopost(
+    """
+    input parameters for function "deposittopost"
+    """
+    args: deposittopost_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_bool_exp
+  ): [graffiti!]!
+
+  """
+  insert data into the table: "graffiti"
+  """
+  insert_graffiti(
+    """
+    the rows to be inserted
+    """
+    objects: [graffiti_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: graffiti_on_conflict
+  ): graffiti_mutation_response
+
+  """
+  insert a single row into the table: "graffiti"
+  """
+  insert_graffiti_one(
+    """
+    the row to be inserted
+    """
+    object: graffiti_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: graffiti_on_conflict
+  ): graffiti
+
+  """
+  insert data into the table: "walls"
+  """
+  insert_walls(
+    """
+    the rows to be inserted
+    """
+    objects: [walls_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: walls_on_conflict
+  ): walls_mutation_response
+
+  """
+  insert a single row into the table: "walls"
+  """
+  insert_walls_one(
+    """
+    the row to be inserted
+    """
+    object: walls_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: walls_on_conflict
+  ): walls
+
+  """
+  update data of the table: "graffiti"
+  """
+  update_graffiti(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: graffiti_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: graffiti_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: graffiti_bool_exp!
+  ): graffiti_mutation_response
+
+  """
+  update single row of the table: "graffiti"
+  """
+  update_graffiti_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: graffiti_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: graffiti_set_input
+    pk_columns: graffiti_pk_columns_input!
+  ): graffiti
+
+  """
+  update multiples rows of table: "graffiti"
+  """
+  update_graffiti_many(
+    """
+    updates to execute, in order
+    """
+    updates: [graffiti_updates!]!
+  ): [graffiti_mutation_response]
+
+  """
+  update data of the table: "walls"
+  """
+  update_walls(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: walls_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: walls_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: walls_bool_exp!
+  ): walls_mutation_response
+
+  """
+  update single row of the table: "walls"
+  """
+  update_walls_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: walls_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: walls_set_input
+    pk_columns: walls_pk_columns_input!
+  ): walls
+
+  """
+  update multiples rows of table: "walls"
+  """
+  update_walls_many(
+    """
+    updates to execute, in order
+    """
+    updates: [walls_updates!]!
+  ): [walls_mutation_response]
+
+  """
+  execute VOLATILE function "withdrawalfrompost" which returns "graffiti"
+  """
+  withdrawalfrompost(
+    """
+    input parameters for function "withdrawalfrompost"
+    """
+    args: withdrawalfrompost_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_bool_exp
+  ): [graffiti!]!
+}
+
+scalar numeric
+
+"""
+Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'.
+"""
+input numeric_comparison_exp {
+  _eq: numeric
+  _gt: numeric
+  _gte: numeric
+  _in: [numeric!]
+  _is_null: Boolean
+  _lt: numeric
+  _lte: numeric
+  _neq: numeric
+  _nin: [numeric!]
+}
+
+"""
+column ordering options
+"""
+enum order_by {
+  """
+  in ascending order, nulls last
+  """
+  asc
+
+  """
+  in ascending order, nulls first
+  """
+  asc_nulls_first
+
+  """
+  in ascending order, nulls last
+  """
+  asc_nulls_last
+
+  """
+  in descending order, nulls first
+  """
+  desc
+
+  """
+  in descending order, nulls first
+  """
+  desc_nulls_first
+
+  """
+  in descending order, nulls last
+  """
+  desc_nulls_last
+}
+
+type query_root {
+  """
+  fetch data from the table: "graffiti"
+  """
+  graffiti(
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_bool_exp
+  ): [graffiti!]!
+
+  """
+  fetch aggregated fields from the table: "graffiti"
+  """
+  graffiti_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_bool_exp
+  ): graffiti_aggregate!
+
+  """
+  fetch data from the table: "graffiti" using primary key columns
+  """
+  graffiti_by_pk(id: Int!): graffiti
+  graffiti_cache_helper(
+    """
+    graffiti_cache_helperNative Query Arguments
+    """
+    args: graffiti_cache_helper_arguments!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_cache_helper_model_enum_name!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_cache_helper_model_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_cache_helper_model_bool_exp_bool_exp
+  ): [graffiti_cache_helper_model!]!
+
+  """
+  fetch data from the table: "graffiti_featured"
+  """
+  graffiti_featured(
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_featured_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_featured_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_featured_bool_exp
+  ): [graffiti_featured!]!
+
+  """
+  fetch aggregated fields from the table: "graffiti_featured"
+  """
+  graffiti_featured_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_featured_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_featured_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_featured_bool_exp
+  ): graffiti_featured_aggregate!
+
+  """
+  fetch data from the table: "graffiti_featured_with_walls"
+  """
+  graffiti_featured_with_walls(
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_featured_with_walls_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_featured_with_walls_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_featured_with_walls_bool_exp
+  ): [graffiti_featured_with_walls!]!
+
+  """
+  fetch aggregated fields from the table: "graffiti_featured_with_walls"
+  """
+  graffiti_featured_with_walls_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_featured_with_walls_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_featured_with_walls_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_featured_with_walls_bool_exp
+  ): graffiti_featured_with_walls_aggregate!
+
+  """
+  fetch data from the table: "graffiti_leaderboard"
+  """
+  graffiti_leaderboard(
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_leaderboard_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_leaderboard_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_leaderboard_bool_exp
+  ): [graffiti_leaderboard!]!
+
+  """
+  fetch aggregated fields from the table: "graffiti_leaderboard"
+  """
+  graffiti_leaderboard_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_leaderboard_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_leaderboard_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_leaderboard_bool_exp
+  ): graffiti_leaderboard_aggregate!
+
+  """
+  fetch data from the table: "hashtag_trends"
+  """
+  hashtag_trends(
+    """
+    distinct select on columns
+    """
+    distinct_on: [hashtag_trends_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [hashtag_trends_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: hashtag_trends_bool_exp
+  ): [hashtag_trends!]!
+
+  """
+  fetch aggregated fields from the table: "hashtag_trends"
+  """
+  hashtag_trends_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [hashtag_trends_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [hashtag_trends_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: hashtag_trends_bool_exp
+  ): hashtag_trends_aggregate!
+
+  """
+  execute function "search_hashtag" which returns "graffiti"
+  """
+  search_hashtag(
+    """
+    input parameters for function "search_hashtag"
+    """
+    args: search_hashtag_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_bool_exp
+  ): [graffiti!]!
+
+  """
+  execute function "search_hashtag" and query aggregates on result of table type "graffiti"
+  """
+  search_hashtag_aggregate(
+    """
+    input parameters for function "search_hashtag_aggregate"
+    """
+    args: search_hashtag_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_bool_exp
+  ): graffiti_aggregate!
+
+  """
+  execute function "search_posts" which returns "graffiti"
+  """
+  search_posts(
+    """
+    input parameters for function "search_posts"
+    """
+    args: search_posts_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_bool_exp
+  ): [graffiti!]!
+
+  """
+  execute function "search_posts" and query aggregates on result of table type "graffiti"
+  """
+  search_posts_aggregate(
+    """
+    input parameters for function "search_posts_aggregate"
+    """
+    args: search_posts_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_bool_exp
+  ): graffiti_aggregate!
+
+  """
+  fetch data from the table: "walls"
+  """
+  walls(
+    """
+    distinct select on columns
+    """
+    distinct_on: [walls_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [walls_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: walls_bool_exp
+  ): [walls!]!
+
+  """
+  fetch data from the table: "wallsByFunds"
+  """
+  wallsByFunds(
+    """
+    distinct select on columns
+    """
+    distinct_on: [wallsByFunds_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [wallsByFunds_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: wallsByFunds_bool_exp
+  ): [wallsByFunds!]!
+
+  """
+  fetch aggregated fields from the table: "wallsByFunds"
+  """
+  wallsByFunds_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [wallsByFunds_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [wallsByFunds_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: wallsByFunds_bool_exp
+  ): wallsByFunds_aggregate!
+
+  """
+  fetch aggregated fields from the table: "walls"
+  """
+  walls_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [walls_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [walls_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: walls_bool_exp
+  ): walls_aggregate!
+
+  """
+  fetch data from the table: "walls" using primary key columns
+  """
+  walls_by_pk(wallIndex: bigint!): walls
+}
+
+input search_hashtag_args {
+  search: String
+}
+
+input search_posts_args {
+  search: String
+}
+
+type subscription_root {
+  """
+  fetch data from the table: "graffiti"
+  """
+  graffiti(
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_bool_exp
+  ): [graffiti!]!
+
+  """
+  fetch aggregated fields from the table: "graffiti"
+  """
+  graffiti_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_bool_exp
+  ): graffiti_aggregate!
+
+  """
+  fetch data from the table: "graffiti" using primary key columns
+  """
+  graffiti_by_pk(id: Int!): graffiti
+  graffiti_cache_helper(
+    """
+    graffiti_cache_helperNative Query Arguments
+    """
+    args: graffiti_cache_helper_arguments!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_cache_helper_model_enum_name!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_cache_helper_model_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_cache_helper_model_bool_exp_bool_exp
+  ): [graffiti_cache_helper_model!]!
+
+  """
+  fetch data from the table: "graffiti_featured"
+  """
+  graffiti_featured(
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_featured_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_featured_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_featured_bool_exp
+  ): [graffiti_featured!]!
+
+  """
+  fetch aggregated fields from the table: "graffiti_featured"
+  """
+  graffiti_featured_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_featured_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_featured_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_featured_bool_exp
+  ): graffiti_featured_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "graffiti_featured"
+  """
+  graffiti_featured_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [graffiti_featured_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_featured_bool_exp
+  ): [graffiti_featured!]!
+
+  """
+  fetch data from the table: "graffiti_featured_with_walls"
+  """
+  graffiti_featured_with_walls(
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_featured_with_walls_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_featured_with_walls_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_featured_with_walls_bool_exp
+  ): [graffiti_featured_with_walls!]!
+
+  """
+  fetch aggregated fields from the table: "graffiti_featured_with_walls"
+  """
+  graffiti_featured_with_walls_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_featured_with_walls_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_featured_with_walls_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_featured_with_walls_bool_exp
+  ): graffiti_featured_with_walls_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "graffiti_featured_with_walls"
+  """
+  graffiti_featured_with_walls_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [graffiti_featured_with_walls_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_featured_with_walls_bool_exp
+  ): [graffiti_featured_with_walls!]!
+
+  """
+  fetch data from the table: "graffiti_leaderboard"
+  """
+  graffiti_leaderboard(
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_leaderboard_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_leaderboard_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_leaderboard_bool_exp
+  ): [graffiti_leaderboard!]!
+
+  """
+  fetch aggregated fields from the table: "graffiti_leaderboard"
+  """
+  graffiti_leaderboard_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_leaderboard_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_leaderboard_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_leaderboard_bool_exp
+  ): graffiti_leaderboard_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "graffiti_leaderboard"
+  """
+  graffiti_leaderboard_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [graffiti_leaderboard_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_leaderboard_bool_exp
+  ): [graffiti_leaderboard!]!
+
+  """
+  fetch data from the table in a streaming manner: "graffiti"
+  """
+  graffiti_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [graffiti_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_bool_exp
+  ): [graffiti!]!
+
+  """
+  fetch data from the table: "hashtag_trends"
+  """
+  hashtag_trends(
+    """
+    distinct select on columns
+    """
+    distinct_on: [hashtag_trends_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [hashtag_trends_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: hashtag_trends_bool_exp
+  ): [hashtag_trends!]!
+
+  """
+  fetch aggregated fields from the table: "hashtag_trends"
+  """
+  hashtag_trends_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [hashtag_trends_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [hashtag_trends_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: hashtag_trends_bool_exp
+  ): hashtag_trends_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "hashtag_trends"
+  """
+  hashtag_trends_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [hashtag_trends_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: hashtag_trends_bool_exp
+  ): [hashtag_trends!]!
+
+  """
+  execute function "search_hashtag" which returns "graffiti"
+  """
+  search_hashtag(
+    """
+    input parameters for function "search_hashtag"
+    """
+    args: search_hashtag_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_bool_exp
+  ): [graffiti!]!
+
+  """
+  execute function "search_hashtag" and query aggregates on result of table type "graffiti"
+  """
+  search_hashtag_aggregate(
+    """
+    input parameters for function "search_hashtag_aggregate"
+    """
+    args: search_hashtag_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_bool_exp
+  ): graffiti_aggregate!
+
+  """
+  execute function "search_posts" which returns "graffiti"
+  """
+  search_posts(
+    """
+    input parameters for function "search_posts"
+    """
+    args: search_posts_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_bool_exp
+  ): [graffiti!]!
+
+  """
+  execute function "search_posts" and query aggregates on result of table type "graffiti"
+  """
+  search_posts_aggregate(
+    """
+    input parameters for function "search_posts_aggregate"
+    """
+    args: search_posts_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [graffiti_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [graffiti_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: graffiti_bool_exp
+  ): graffiti_aggregate!
+
+  """
+  fetch data from the table: "walls"
+  """
+  walls(
+    """
+    distinct select on columns
+    """
+    distinct_on: [walls_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [walls_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: walls_bool_exp
+  ): [walls!]!
+
+  """
+  fetch data from the table: "wallsByFunds"
+  """
+  wallsByFunds(
+    """
+    distinct select on columns
+    """
+    distinct_on: [wallsByFunds_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [wallsByFunds_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: wallsByFunds_bool_exp
+  ): [wallsByFunds!]!
+
+  """
+  fetch aggregated fields from the table: "wallsByFunds"
+  """
+  wallsByFunds_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [wallsByFunds_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [wallsByFunds_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: wallsByFunds_bool_exp
+  ): wallsByFunds_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "wallsByFunds"
+  """
+  wallsByFunds_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [wallsByFunds_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: wallsByFunds_bool_exp
+  ): [wallsByFunds!]!
+
+  """
+  fetch aggregated fields from the table: "walls"
+  """
+  walls_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [walls_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [walls_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: walls_bool_exp
+  ): walls_aggregate!
+
+  """
+  fetch data from the table: "walls" using primary key columns
+  """
+  walls_by_pk(wallIndex: bigint!): walls
+
+  """
+  fetch data from the table in a streaming manner: "walls"
+  """
+  walls_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [walls_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: walls_bool_exp
+  ): [walls!]!
+}
+
+scalar timestamptz
+
+"""
+Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'.
+"""
+input timestamptz_comparison_exp {
+  _eq: timestamptz
+  _gt: timestamptz
+  _gte: timestamptz
+  _in: [timestamptz!]
+  _is_null: Boolean
+  _lt: timestamptz
+  _lte: timestamptz
+  _neq: timestamptz
+  _nin: [timestamptz!]
+}
+
+"""
+columns and relationships of "walls"
+"""
+type walls {
+  created_at: timestamptz
+  postCost: Int!
+  wallIndex: bigint!
+  wallName: String!
+}
+
+"""
+columns and relationships of "wallsByFunds"
+"""
+type wallsByFunds {
+  created_at: timestamptz
+  postCost: Int
+  sum_locked_funds: bigint
+  wallIndex: bigint
+  wallName: String
+}
+
+"""
+aggregated selection of "wallsByFunds"
+"""
+type wallsByFunds_aggregate {
+  aggregate: wallsByFunds_aggregate_fields
+  nodes: [wallsByFunds!]!
+}
+
+"""
+aggregate fields of "wallsByFunds"
+"""
+type wallsByFunds_aggregate_fields {
+  avg: wallsByFunds_avg_fields
+  count(columns: [wallsByFunds_select_column!], distinct: Boolean): Int!
+  max: wallsByFunds_max_fields
+  min: wallsByFunds_min_fields
+  stddev: wallsByFunds_stddev_fields
+  stddev_pop: wallsByFunds_stddev_pop_fields
+  stddev_samp: wallsByFunds_stddev_samp_fields
+  sum: wallsByFunds_sum_fields
+  var_pop: wallsByFunds_var_pop_fields
+  var_samp: wallsByFunds_var_samp_fields
+  variance: wallsByFunds_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type wallsByFunds_avg_fields {
+  postCost: Float
+  sum_locked_funds: Float
+  wallIndex: Float
+}
+
+"""
+Boolean expression to filter rows from the table "wallsByFunds". All fields are combined with a logical 'AND'.
+"""
+input wallsByFunds_bool_exp {
+  _and: [wallsByFunds_bool_exp!]
+  _not: wallsByFunds_bool_exp
+  _or: [wallsByFunds_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  postCost: Int_comparison_exp
+  sum_locked_funds: bigint_comparison_exp
+  wallIndex: bigint_comparison_exp
+  wallName: String_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type wallsByFunds_max_fields {
+  created_at: timestamptz
+  postCost: Int
+  sum_locked_funds: bigint
+  wallIndex: bigint
+  wallName: String
+}
+
+"""
+aggregate min on columns
+"""
+type wallsByFunds_min_fields {
+  created_at: timestamptz
+  postCost: Int
+  sum_locked_funds: bigint
+  wallIndex: bigint
+  wallName: String
+}
+
+"""
+Ordering options when selecting data from "wallsByFunds".
+"""
+input wallsByFunds_order_by {
+  created_at: order_by
+  postCost: order_by
+  sum_locked_funds: order_by
+  wallIndex: order_by
+  wallName: order_by
+}
+
+"""
+select columns of table "wallsByFunds"
+"""
+enum wallsByFunds_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  postCost
+
+  """
+  column name
+  """
+  sum_locked_funds
+
+  """
+  column name
+  """
+  wallIndex
+
+  """
+  column name
+  """
+  wallName
+}
+
+"""
+aggregate stddev on columns
+"""
+type wallsByFunds_stddev_fields {
+  postCost: Float
+  sum_locked_funds: Float
+  wallIndex: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type wallsByFunds_stddev_pop_fields {
+  postCost: Float
+  sum_locked_funds: Float
+  wallIndex: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type wallsByFunds_stddev_samp_fields {
+  postCost: Float
+  sum_locked_funds: Float
+  wallIndex: Float
+}
+
+"""
+Streaming cursor of the table "wallsByFunds"
+"""
+input wallsByFunds_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: wallsByFunds_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input wallsByFunds_stream_cursor_value_input {
+  created_at: timestamptz
+  postCost: Int
+  sum_locked_funds: bigint
+  wallIndex: bigint
+  wallName: String
+}
+
+"""
+aggregate sum on columns
+"""
+type wallsByFunds_sum_fields {
+  postCost: Int
+  sum_locked_funds: bigint
+  wallIndex: bigint
+}
+
+"""
+aggregate var_pop on columns
+"""
+type wallsByFunds_var_pop_fields {
+  postCost: Float
+  sum_locked_funds: Float
+  wallIndex: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type wallsByFunds_var_samp_fields {
+  postCost: Float
+  sum_locked_funds: Float
+  wallIndex: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type wallsByFunds_variance_fields {
+  postCost: Float
+  sum_locked_funds: Float
+  wallIndex: Float
+}
+
+"""
+aggregated selection of "walls"
+"""
+type walls_aggregate {
+  aggregate: walls_aggregate_fields
+  nodes: [walls!]!
+}
+
+"""
+aggregate fields of "walls"
+"""
+type walls_aggregate_fields {
+  avg: walls_avg_fields
+  count(columns: [walls_select_column!], distinct: Boolean): Int!
+  max: walls_max_fields
+  min: walls_min_fields
+  stddev: walls_stddev_fields
+  stddev_pop: walls_stddev_pop_fields
+  stddev_samp: walls_stddev_samp_fields
+  sum: walls_sum_fields
+  var_pop: walls_var_pop_fields
+  var_samp: walls_var_samp_fields
+  variance: walls_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type walls_avg_fields {
+  postCost: Float
+  wallIndex: Float
+}
+
+"""
+Boolean expression to filter rows from the table "walls". All fields are combined with a logical 'AND'.
+"""
+input walls_bool_exp {
+  _and: [walls_bool_exp!]
+  _not: walls_bool_exp
+  _or: [walls_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  postCost: Int_comparison_exp
+  wallIndex: bigint_comparison_exp
+  wallName: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "walls"
+"""
+enum walls_constraint {
+  """
+  unique or primary key constraint on columns "wallIndex"
+  """
+  walls_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "walls"
+"""
+input walls_inc_input {
+  postCost: Int
+  wallIndex: bigint
+}
+
+"""
+input type for inserting data into table "walls"
+"""
+input walls_insert_input {
+  created_at: timestamptz
+  postCost: Int
+  wallIndex: bigint
+  wallName: String
+}
+
+"""
+aggregate max on columns
+"""
+type walls_max_fields {
+  created_at: timestamptz
+  postCost: Int
+  wallIndex: bigint
+  wallName: String
+}
+
+"""
+aggregate min on columns
+"""
+type walls_min_fields {
+  created_at: timestamptz
+  postCost: Int
+  wallIndex: bigint
+  wallName: String
+}
+
+"""
+response of any mutation on the table "walls"
+"""
+type walls_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [walls!]!
+}
+
+"""
+input type for inserting object relation for remote table "walls"
+"""
+input walls_obj_rel_insert_input {
+  data: walls_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: walls_on_conflict
+}
+
+"""
+on_conflict condition type for table "walls"
+"""
+input walls_on_conflict {
+  constraint: walls_constraint!
+  update_columns: [walls_update_column!]! = []
+  where: walls_bool_exp
+}
+
+"""
+Ordering options when selecting data from "walls".
+"""
+input walls_order_by {
+  created_at: order_by
+  postCost: order_by
+  wallIndex: order_by
+  wallName: order_by
+}
+
+"""
+primary key columns input for table: walls
+"""
+input walls_pk_columns_input {
+  wallIndex: bigint!
+}
+
+"""
+select columns of table "walls"
+"""
+enum walls_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  postCost
+
+  """
+  column name
+  """
+  wallIndex
+
+  """
+  column name
+  """
+  wallName
+}
+
+"""
+input type for updating data in table "walls"
+"""
+input walls_set_input {
+  created_at: timestamptz
+  postCost: Int
+  wallIndex: bigint
+  wallName: String
+}
+
+"""
+aggregate stddev on columns
+"""
+type walls_stddev_fields {
+  postCost: Float
+  wallIndex: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type walls_stddev_pop_fields {
+  postCost: Float
+  wallIndex: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type walls_stddev_samp_fields {
+  postCost: Float
+  wallIndex: Float
+}
+
+"""
+Streaming cursor of the table "walls"
+"""
+input walls_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: walls_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input walls_stream_cursor_value_input {
+  created_at: timestamptz
+  postCost: Int
+  wallIndex: bigint
+  wallName: String
+}
+
+"""
+aggregate sum on columns
+"""
+type walls_sum_fields {
+  postCost: Int
+  wallIndex: bigint
+}
+
+"""
+update columns of table "walls"
+"""
+enum walls_update_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  postCost
+
+  """
+  column name
+  """
+  wallIndex
+
+  """
+  column name
+  """
+  wallName
+}
+
+input walls_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: walls_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: walls_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: walls_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type walls_var_pop_fields {
+  postCost: Float
+  wallIndex: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type walls_var_samp_fields {
+  postCost: Float
+  wallIndex: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type walls_variance_fields {
+  postCost: Float
+  wallIndex: Float
+}
+
+input withdrawalfrompost_args {
+  owner: String
+  postindex: Int
+  value: Int
+}
