@@ -11,7 +11,6 @@ const useJWT = () => {
       body: JSON.stringify({ "cf-turnstile-response": cfToken }),
       headers: {
         "Content-Type": "application/json",
-        "CF-Connecting-IP": "127.0.0.1",
       },
     });
 
