@@ -11,7 +11,7 @@ const Nav = () => {
       <nav className="mx-auto flex items-center justify-between bg-white p-4 lg:px-5">
         <div className="flex items-center gap-12">
           <div className="flex">
-            <Link className="-m-1.5 p-1.5" href="/html/grafti/index.html">
+            <Link className="-m-1.5 p-1.5" href="">
               <span className="sr-only">Graffiti Protocol</span>
               <img
                 alt=""
