@@ -2,13 +2,11 @@
 
 import React, { ReactNode } from "react";
 import { ApolloWrapper } from "./ApolloWrapper";
-// import { GlobalStateProvider } from "./GlobalState";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { State, WagmiProvider, createConfig, http } from "wagmi";
-import { base, baseSepolia, localhost } from "wagmi/chains";
+import { base, baseSepolia } from "wagmi/chains";
 import {
-  getDefaultConfig,
   RainbowKitProvider,
   lightTheme,
   darkTheme,
@@ -17,7 +15,6 @@ import {
 
 import {
   rainbowWallet,
-  walletConnectWallet,
   phantomWallet,
   metaMaskWallet,
   braveWallet,
@@ -36,24 +33,13 @@ const connectors = connectorsForWallets(
   },
 );
 
-// const config = getDefaultConfig({
-//   appName: "RainbowKit App",
-//   projectId: "YOUR_PROJECT_ID",
-//   chains: [
-//     baseSepolia,
-//     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === "true"
-//       ? [baseSepolia]
-//       : []),
-//   ],
-//   ssr: true,
-// });
-
 const config = createConfig({
-  chains: [baseSepolia],
+  chains: [process.env.NEXT_PUBLIC_TESTNET === "true" ? baseSepolia : base],
   transports: {
     [baseSepolia.id]: http(baseSepolia.rpcUrls.default.http[0]),
+    [base.id]: http(base.rpcUrls.default.http[0]),
   },
-  ssr: true,
+  ssr: false,
   connectors,
 });
 
@@ -66,7 +52,6 @@ const client = new QueryClient({
 });
 
 const theme = lightTheme();
-// theme.fonts.body = "Times New Roman";
 
 function contextProvider({
   children,
