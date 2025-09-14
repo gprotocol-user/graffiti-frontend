@@ -1,5 +1,5 @@
 {
-  "name": "frontwall",
+  "name": "graffiti-frontend",
   "private": true,
   "version": "0.1.0",
   "scripts": {
@@ -9,11 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "tsc": "tsc --noemit",
-    "gql": "graphql-codegen",
-    "pages:build": "npx @cloudflare/next-on-pages",
-    "preview": "npm run pages:build && wrangler pages dev",
-    "deploy": "npm run pages:build && wrangler pages deploy",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts"
+    "gql": "graphql-codegen"
   },
   "dependencies": {
     "@apollo/client": "^4.0.5",
