@@ -56,7 +56,7 @@ const LandingPage: NextPage = () => {
               <div className="flex justify-center lg:justify-start">
                 <div className="flex w-fit items-center justify-center gap-3 rounded-full bg-white px-4 py-2 md:justify-start">
                   <img src="images/grafftiIcon.svg" alt="" />
-                  <h2 className="text-gray-m-800">graffiti-protocol.com</h2>
+                  <h2 className="text-gray-m-800">graffiti-protocol.org</h2>
                   <button className="hidden rounded-full bg-primary px-3 py-2 text-base font-semibold text-white hover:bg-primaryDark md:block md:px-4">
                     Share link
                   </button>
@@ -5562,7 +5562,7 @@ const LandingPage: NextPage = () => {
                 <div className="flex items-center gap-3">
                   <img src="images/grafftiIcon.svg" alt="" />
                   <a className="text-lg text-gray-m-800" href="">
-                    graffiti-protocol.com
+                    graffiti-protocol.org
                   </a>
                 </div>
                 <div className="flex items-center gap-3">
