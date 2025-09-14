@@ -6,25 +6,23 @@ import {
   ApolloLink,
   CombinedGraphQLErrors,
   CombinedProtocolErrors,
-} from "@apollo/client";
-import { onError, ErrorLink } from "@apollo/client/link/error";
-import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
-import { setContext } from "@apollo/client/link/context";
-import { createClient } from "graphql-ws";
-import { getMainDefinition } from "@apollo/client/utilities";
-import {
   InMemoryCache,
   ApolloClient,
-  ApolloNextAppProvider,
-} from "@apollo/client-integration-nextjs";
+} from "@apollo/client";
+import { ApolloProvider } from "@apollo/client/react";
+import { ErrorLink } from "@apollo/client/link/error";
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
+import { SetContextLink } from "@apollo/client/link/context";
+import { createClient } from "graphql-ws";
+import { getMainDefinition } from "@apollo/client/utilities";
 import { offsetLimitPagination } from "@apollo/client/utilities";
 
 import { Graffiti } from "@/lib/generated/codegen/graphql";
 import Turnstile from "@/components/Captcha";
-import { useEffect, useState } from "react";
-import { isJwtExpired } from "@/lib/utils";
+import { useMemo } from "react";
+import useJWT from "@/hooks/useJWT";
 
-const makeClient = (cb: Function) => {
+const makeClient = (revalidateCallback: Function) => {
   const httpLink = new HttpLink({
     uri: process.env.NEXT_PUBLIC_HASURA_HTTP_ENDPOINT,
   });
@@ -43,10 +41,9 @@ const makeClient = (cb: Function) => {
     }),
   );
 
-  const authLink = setContext((_, { headers }) => {
-    // get the authentication token from local storage if it exists
+  const authLink = new SetContextLink((prevContext, _) => {
+    const { headers } = prevContext;
     const token = localStorage.getItem("jwt");
-    // return the headers to the context so httpLink can read them
     return {
       headers: {
         ...headers,
@@ -67,27 +64,11 @@ const makeClient = (cb: Function) => {
     authLink.concat(httpLink),
   );
 
-  // const errorLink = new ErrorLink()
-
-  // const errorLink = new ErrorLink(({ graphQLErrors, networkError }) => {
-  //   if (graphQLErrors) {
-  //     for (const err of graphQLErrors) {
-  //       if (err.extensions?.code === "invalid-jwt") {
-  //         cb();
-  //       }
-  //     }
-  //   }
-
-  //   if (networkError) {
-  //     console.error(`[Network error]: ${networkError}`);
-  //   }
-  // });
-
   const errorLink = new ErrorLink(({ error }) => {
     if (CombinedGraphQLErrors.is(error)) {
       for (const err of error.errors) {
         if (err.extensions?.code === "invalid-jwt") {
-          cb(); // your callback
+          revalidateCallback(); // your callback
         }
       }
     } else if (CombinedProtocolErrors.is(error)) {
@@ -102,6 +83,9 @@ const makeClient = (cb: Function) => {
   });
 
   const client = new ApolloClient({
+    devtools: {
+      enabled: true,
+    },
     link: ApolloLink.from([errorLink, splitLink]),
     cache: new InMemoryCache({
       typePolicies: {
@@ -244,49 +228,22 @@ const makeClient = (cb: Function) => {
       },
     }),
   });
-  return () => client;
+  return client;
 };
 
 export function ApolloWrapper({ children }: React.PropsWithChildren) {
-  const [loading, setLoading] = useState(true);
-  const [captcheResolved, setCaptchaResolved] = useState(false);
+  const { loading, captchaResolved, handleJWTReissue, handleVerify } = useJWT();
 
-  const handleVerify = async (cfToken: string) => {
-    const res = await fetch(process.env.NEXT_PUBLIC_JWT_ISSUER as string, {
-      method: "POST",
-      body: JSON.stringify({ "cf-turnstile-response": cfToken }),
-      headers: {
-        "Content-Type": "application/json",
-        //"cf-connecting-ip": "127.0.0.1",
-      },
-    });
-
-    if (res.ok) {
-      const { JWT }: { JWT: string } = await res.json();
-      console.log("JWT:", JWT);
-      localStorage.setItem("jwt", JWT);
-      setCaptchaResolved(true);
-    }
-  };
-
-  const handleJWTReissue = () => {
-    // console.log("handlereissue");
-    setCaptchaResolved(false);
-  };
-
-  useEffect(() => {
-    const jwt = localStorage.getItem("jwt");
-    if (jwt && !isJwtExpired(jwt)) {
-      setCaptchaResolved(true); //skipping verification
-    }
-    setLoading(false);
-  }, []);
+  const client = useMemo(
+    () => makeClient(handleJWTReissue),
+    [handleJWTReissue],
+  );
 
   if (loading) {
     return;
   }
 
-  if (!captcheResolved) {
+  if (!captchaResolved) {
     return (
       <div className="flex h-screen flex-row items-center justify-center bg-slate-100">
         <Turnstile onVerify={handleVerify} />
@@ -294,9 +251,5 @@ export function ApolloWrapper({ children }: React.PropsWithChildren) {
     );
   }
 
-  return (
-    <ApolloNextAppProvider makeClient={makeClient(handleJWTReissue)}>
-      {children}
-    </ApolloNextAppProvider>
-  );
+  return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }

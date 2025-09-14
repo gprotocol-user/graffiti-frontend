@@ -9,49 +9,6 @@ import { GET_LEADERBOARD } from "@/lib/listGraffitiQuery";
 import { Loader2 } from "lucide-react";
 import { abbreviateNumber } from "@/lib/utils";
 
-const mockLeader: { name: string; graff: string }[] = [
-  {
-    name: "0x419824IUA769hb",
-    graff: "900",
-  },
-  {
-    name: "0xDJALKS824IUA769hb",
-    graff: "890",
-  },
-  {
-    name: "0x5678924IUA769hb",
-    graff: "760",
-  },
-  {
-    name: "0xOSIAJDBA987523",
-    graff: "600",
-  },
-  {
-    name: "0xFGAHJSLA4765998",
-    graff: "506",
-  },
-  {
-    name: "0x419824098AJKSn",
-    graff: "500",
-  },
-  {
-    name: "0xKaJSHdsad97840123",
-    graff: "450",
-  },
-  {
-    name: "0xKaJSH689asd840123",
-    graff: "436",
-  },
-  {
-    name: "0x12341JSH6897840123",
-    graff: "400",
-  },
-  {
-    name: "0x2983JSH6897840123",
-    graff: "290",
-  },
-];
-
 const LeaderboardItem = ({
   position = 1,
   graff = "0",

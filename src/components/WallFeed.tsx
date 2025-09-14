@@ -35,11 +35,15 @@ const SearchForParams = () => {
   });
 
   useEffect(() => {
-    if (data?.walls[0]) {
-      setCommunityNotFound(false);
-      setSelectedCommunity(data.walls[0]);
+    if (!loading) {
+      if (data?.walls[0]) {
+        setCommunityNotFound(false);
+        setSelectedCommunity(data.walls[0]);
+      } else {
+        setCommunityNotFound(true);
+      }
     } else {
-      setCommunityNotFound(true);
+      setCommunityNotFound(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wallName, data]);
