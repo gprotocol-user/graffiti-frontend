@@ -169,7 +169,7 @@ const ConnectWalletAndBalance = () => {
                     >
                       <div className="hidden items-center gap-2 p-[1px] md:flex">
                         <img
-                          src="images/wallet.svg"
+                          src="/images/wallet.svg"
                           className="md:h-5 md:w-5"
                           alt=""
                         />{" "}
@@ -179,7 +179,7 @@ const ConnectWalletAndBalance = () => {
                       </div>
                       <div className="flex items-center gap-2">
                         <img
-                          src="images/grafftiIcon.svg"
+                          src="/images/grafftiIcon.svg"
                           className="h-4 w-4 md:h-4 md:w-4"
                           alt=""
                         />

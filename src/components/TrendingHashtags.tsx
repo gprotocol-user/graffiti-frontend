@@ -54,7 +54,7 @@ const HashtagItem = ({
         </div>
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1 rounded-md bg-slate-300 p-1 text-xs">
-            <img src="images/grafftiIcon.svg" className="h-3.5 w-3.5" alt="" />
+            <img src="/images/grafftiIcon.svg" className="h-3.5 w-3.5" alt="" />
 
             <span className="text-xs">{abbreviateNumber(Number(graff))}</span>
           </div>

@@ -1,8 +1,6 @@
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import type { Metadata } from "next";
-import { Toaster } from "@/components/ui/toaster";
-import ContextProvider from "./context";
 import { Poppins } from "next/font/google";
 
 export const metadata: Metadata = {
@@ -36,10 +34,7 @@ type LayoutProps = {
 const RootLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <html lang="en">
-      <body className={poppins.variable}>
-        <ContextProvider>{children}</ContextProvider>
-        <Toaster />
-      </body>
+      <body className={poppins.variable}>{children}</body>
     </html>
   );
 };

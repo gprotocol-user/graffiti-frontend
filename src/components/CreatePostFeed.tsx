@@ -124,7 +124,7 @@ const CreatePostFeed = () => {
               </span>
               <div className="flex items-center gap-1 text-sm text-gray-m-900 dark:text-slate-300">
                 <img
-                  src="images/grafftiIcon.svg"
+                  src="/images/grafftiIcon.svg"
                   className="hidden h-5 w-5 sm:block"
                   alt=""
                 />

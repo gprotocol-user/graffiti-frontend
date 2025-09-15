@@ -76,7 +76,7 @@ const Nav = () => {
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-3">
             <Link
-              href="/feed"
+              href="/app/feed"
               className="rounded-full bg-primary px-3 py-1.5 text-sm font-semibold text-white hover:bg-primaryDark md:px-4 md:py-2.5 md:text-base"
             >
               Go to App

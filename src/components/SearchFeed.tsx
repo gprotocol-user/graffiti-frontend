@@ -88,7 +88,7 @@ const AddressSearchResult = ({
       <div className="mt-3 grid grid-cols-4 gap-4">
         <div className="flex flex-col items-center justify-center gap-1 rounded-lg bg-gray-m-50 p-3 text-gray-m-900 dark:bg-s3 dark:text-slate-300">
           <img
-            src="images/grafftiIconOutline.svg"
+            src="/images/grafftiIconOutline.svg"
             className="h-6 w-6 dark:invert"
             alt=""
           />

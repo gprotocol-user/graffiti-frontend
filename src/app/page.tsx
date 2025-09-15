@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Nav from "./landingpage/Nav";
+import Nav from "./app/landingpage/Nav";
 import Link from "next/link";
 import { Fragment } from "react";
 

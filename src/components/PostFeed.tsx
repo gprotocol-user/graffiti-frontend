@@ -229,7 +229,7 @@ const PostFeed = ({
             }}
           >
             <img
-              src="images/grafftiIconOutline.svg"
+              src="/images/grafftiIconOutline.svg"
               className="h-5 w-5 dark:invert"
               alt=""
             />

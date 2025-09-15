@@ -35,7 +35,7 @@ const UserCard = ({ userAddress, username }: UserCardProps) => {
   return (
     <div className="mb-4 overflow-hidden rounded-xl bg-white shadow-cardShadow dark:bg-s2">
       <div>
-        <img src="images/profilebanner.png" className="w-full" alt="" />
+        <img src="/images/profilebanner.png" className="w-full" alt="" />
       </div>
       <div className="relative z-10 -mt-12 p-3">
         <Avatar className="relative mb-3 h-20 w-20 rounded-full border-4 border-white shadow-lg">
@@ -73,7 +73,7 @@ const UserCard = ({ userAddress, username }: UserCardProps) => {
         <div className="mt-3 grid grid-cols-4 gap-4">
           <div className="flex flex-col items-center justify-center gap-1 rounded-lg bg-gray-m-50 p-3 text-gray-m-900 dark:bg-s3 dark:text-slate-300">
             <img
-              src="images/grafftiIconOutline.svg"
+              src="/images/grafftiIconOutline.svg"
               className="h-6 w-6 dark:invert"
               alt=""
             />
@@ -114,14 +114,14 @@ const UserCard = ({ userAddress, username }: UserCardProps) => {
               <button className="flex w-full cursor-pointer items-center justify-between rounded-md px-2 py-3 text-gray-m-900 hover:bg-gray-100 dark:bg-s3 dark:text-slate-300 hover:dark:bg-s4">
                 <div className="flex items-center gap-2">
                   <img
-                    src="images/settings.svg"
+                    src="/images/settings.svg"
                     className="h-5 w-5 dark:invert"
                     alt=""
                   />
                   <span className="text-sm font-medium">Setting</span>
                 </div>
                 <img
-                  src="images/arrowHeadRight.svg"
+                  src="/images/arrowHeadRight.svg"
                   className="h-5 w-5 dark:invert"
                   alt=""
                 />
@@ -150,7 +150,7 @@ const UserCard = ({ userAddress, username }: UserCardProps) => {
                       >
                         <div className="flex items-center gap-2">
                           <img
-                            src="images/logout.svg"
+                            src="/images/logout.svg"
                             className="h-5 w-5 dark:invert"
                             alt=""
                           />

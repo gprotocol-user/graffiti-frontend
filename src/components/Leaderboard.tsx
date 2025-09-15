@@ -21,7 +21,7 @@ const LeaderboardItem = ({
   let numberStyle =
     "flex h-5 w-5 items-center justify-center rounded-full border border-gray-m-200 text-center text-xs font-semibold @[12rem]/item:flex hidden";
   let gradient = "hover:bg-gray-100";
-  let src = "images/star.svg";
+  let src = "/images/star.svg";
   if (position === 1) {
     gradient = "from-[#FEF0C7] to-[#FFFFFF]";
     src = "/images/gold.svg";
@@ -62,7 +62,7 @@ const LeaderboardItem = ({
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1">
               <img
-                src="images/grafftiIcon.svg"
+                src="/images/grafftiIcon.svg"
                 className="h-3.5 w-3.5"
                 alt=""
               />

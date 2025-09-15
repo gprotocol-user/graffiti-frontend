@@ -365,7 +365,7 @@ const CommunitySearch = () => {
                     </div>
                     <div className="flex items-center gap-1 rounded-md bg-slate-300 p-1 text-xs">
                       <img
-                        src="images/grafftiIcon.svg"
+                        src="/images/grafftiIcon.svg"
                         className="h-3.5 w-3.5"
                         alt=""
                       />

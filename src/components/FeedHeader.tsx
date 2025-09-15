@@ -17,14 +17,14 @@ const FeedHeader = () => {
                 loading="lazy"
                 className="hidden md:block dark:invert"
                 decoding="async"
-                src="images/logo.svg"
+                src="/images/logo.svg"
               />
               <img
                 alt=""
                 loading="lazy"
                 decoding="async"
                 className="block h-7 md:hidden dark:invert"
-                src="images/grafftiIcon.svg"
+                src="/images/grafftiIcon.svg"
               />
             </Link>
           </div>
@@ -201,7 +201,7 @@ const FeedHeader = () => {
         <div className="fixed inset-y-0 right-0 z-20 w-full overflow-y-auto bg-white p-4 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 md:px-6 md:py-6">
           <div className="flex items-center justify-between">
             <Link href="#" className="">
-              <span className="sr-only">Your Company</span>
+              <span className="sr-only">Graffiti</span>
               <img
                 alt=""
                 loading="lazy"
@@ -210,7 +210,7 @@ const FeedHeader = () => {
                 decoding="async"
                 className="h-12 w-auto"
                 style={{ color: "transparent" }}
-                src="images/logo.svg"
+                src="/images/logo.svg"
               />
             </Link>
             <button

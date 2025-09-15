@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import useBoundStore, {
   SelectedMobileTabSlice,
-} from "../context/GlobalZustand";
+} from "../../context/GlobalZustand";
 import UserCard from "@/components/UserCard";
 import UserWallPostsFeed from "@/components/UserWallPostsFeed";
 import Footer from "@/components/Footer";

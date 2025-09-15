@@ -1,30 +1,50 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import CommunitySearch from "@/components/CommunitySearch";
-import CreatePostFeed from "@/components/CreatePostFeed";
 import Footer from "@/components/Footer";
 import Leaderboard from "@/components/Leaderboard";
 import PopularPosts from "@/components/PopularPosts";
 import Telegram from "@/components/Telegram";
-import WallFeed from "@/components/WallFeed";
 import useBoundStore, {
   SelectedMobileTabSlice,
-} from "../context/GlobalZustand";
+} from "../../context/GlobalZustand";
 import { cn } from "@/lib/utils";
+import PostFeed from "@/components/PostFeed";
+import { useSearchParams } from "next/navigation";
+import { useQuery } from "@apollo/client/react";
+import { GET_SPECIFIC_POST } from "@/lib/listGraffitiQuery";
+import { useState } from "react";
+import { Graffiti } from "@/lib/generated/codegen/graphql";
+import PostSkeleton from "@/components/PostSkeleton";
+import LockingDialogs from "@/components/LockingDialogs";
 import TrendingHashtags from "@/components/TrendingHashtags";
 
-const CommunityTitle = () => {
-  const selectedCommunity = useBoundStore((state) => state.selectedCommunity);
-  const communityNotFound = useBoundStore((state) => state.communityNotFound);
-  return (
-    <h2 className="mb-4 text-lg font-semibold text-gray-m-900 dark:text-slate-300">
-      {communityNotFound ? "There was a problem" : selectedCommunity.wallName}
-    </h2>
-  );
+const SearchForParams = ({ setPost }: { setPost: Function }) => {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
+  const { data, error, loading } = useQuery(GET_SPECIFIC_POST, {
+    variables: {
+      id: Number(id),
+    },
+  });
+
+  useEffect(() => {
+    if (!loading) {
+      if (data?.graffiti[0]) {
+        setPost(data.graffiti[0]);
+      } else {
+        setPost(undefined);
+      }
+    }
+  }, [data, loading, setPost]);
+
+  return <></>;
 };
 
-const FeedPageTabs = () => {
+const PostPageTabs = () => {
+  const [post, setPost] = useState<Graffiti | "loading">("loading");
+
   // Refs for each tab
   const communityRef = useRef<HTMLDivElement | null>(null);
   const homeRef = useRef<HTMLDivElement | null>(null);
@@ -78,11 +98,42 @@ const FeedPageTabs = () => {
       </div>
       <div
         ref={homeRef}
-        className={cn("col-span-12 pt-16 md:col-span-6 md:block md:pt-24")}
+        className={cn(
+          "col-span-12 mt-12 pt-16 md:col-span-6 md:block md:pt-24",
+        )}
       >
-        <CommunityTitle />
-        <CreatePostFeed />
-        <WallFeed />
+        <Suspense>
+          <SearchForParams setPost={setPost} />
+          {post == "loading" ? (
+            <PostSkeleton />
+          ) : (
+            <>
+              {post ? (
+                <>
+                  <PostFeed
+                    community={
+                      post.graffitiToWalls?.wallName
+                        ? post.graffitiToWalls.wallName
+                        : "null"
+                    }
+                    content={post.message}
+                    date={post.timestamp}
+                    likeCount={post.locked_funds / 100}
+                    userAddress={post.address}
+                    userAvatar="https://github.com/shadcn.png"
+                    userFallback="CN"
+                    username="User"
+                    shouldRedirect
+                    shouldRedirectToCommunity
+                  />
+                  <LockingDialogs />
+                </>
+              ) : (
+                <div className="font-semibold">Post not found!</div>
+              )}
+            </>
+          )}
+        </Suspense>
       </div>
       <div
         ref={leaderboardRef}
@@ -98,4 +149,4 @@ const FeedPageTabs = () => {
   );
 };
 
-export default FeedPageTabs;
+export default PostPageTabs;

@@ -6,7 +6,7 @@ const Telegram = () => {
       </h2>
       <div className="rounded-xl bg-white p-3 shadow-cardShadow dark:bg-s2">
         <div className="flex items-start gap-3">
-          <img src="images/telegramIcon.svg" className="h-7 w-7" alt="" />
+          <img src="/images/telegramIcon.svg" className="h-7 w-7" alt="" />
           <div className="flex w-full items-center justify-between rounded-md bg-gray-m-100 p-2 dark:bg-s3">
             <div>
               <a
